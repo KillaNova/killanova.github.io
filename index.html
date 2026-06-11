@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eren Yilmaz — Junior Developer · Python & PxPlus · Nijmegen</title>
+<meta name="description" content="Junior developer met een zeldzame dubbele stack: moderne Python én legacy PxPlus. Inzetbaar als freelancer, remote of op kantoor. AI-native, gebouwd met Claude.">
+<!-- SECURITY: strikte CSP — alles komt van 'self', nul externe bronnen, geen inline scripts/styles -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#030304">
+<meta property="og:title" content="Eren Yilmaz — Junior Developer · Python & PxPlus">
+<meta property="og:description" content="Van legacy tot AI-native. Freelance, remote of op kantoor — één gesprek en je weet genoeg.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://killanova.github.io">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050505'/%3E%3Ctext x='32' y='43' font-family='Arial' font-size='26' font-weight='bold' fill='%23d97757' text-anchor='middle'%3EEY%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="fonts/SpaceGrotesk-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/PlusJakartaSans-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<script src="js/main.js" defer></script>
+</head>
+<body>
+
+<!-- icon-sprite: alle iconen inline, geen externe icon-CDN nodig -->
+<svg width="0" height="0" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="8 7 17 7 17 16"/></symbol>
+    <symbol id="i-arrow-d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4.5" width="20" height="15" rx="2"/><polyline points="2.5 7 12 13.5 21.5 7"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M12 3c.6 4.4 2 5.9 6.5 6.5-4.5.6-5.9 2-6.5 6.5-.6-4.5-2-5.9-6.5-6.5C10 8.9 11.4 7.4 12 3z"/><path d="M19 15.5c.3 2 .9 2.7 3 3-2.1.3-2.7 1-3 3-.3-2-.9-2.7-3-3 2.1-.3 2.7-1 3-3z"/></symbol>
+    <symbol id="i-film" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="8" y1="4" x2="8" y2="20"/><line x1="16" y1="4" x2="16" y2="20"/><line x1="3" y1="9" x2="8" y2="9"/><line x1="3" y1="15" x2="8" y2="15"/><line x1="16" y1="9" x2="21" y2="9"/><line x1="16" y1="15" x2="21" y2="15"/></symbol>
+    <symbol id="i-bot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="11" rx="3"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/><line x1="12" y1="8" x2="12" y2="4.5"/><circle cx="12" cy="3.8" r=".9"/></symbol>
+    <symbol id="i-dumbbell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><line x1="7.5" y1="12" x2="16.5" y2="12"/><rect x="3.5" y="8" width="3.5" height="8" rx="1"/><rect x="17" y="8" width="3.5" height="8" rx="1"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 14 21 6"/><polyline points="15 6 21 6 21 12"/></symbol>
+    <symbol id="i-venn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="9" cy="12" r="5.8"/><circle cx="15" cy="12" r="5.8"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M13 2 4.5 14H10l-1 8 8.5-12H12l1-8z"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 9 12 4 17"/><line x1="12" y1="17" x2="20" y2="17"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 4.5v2M12 17.5v2M4.5 12h2M17.5 12h2M6.7 6.7l1.4 1.4M15.9 15.9l1.4 1.4M17.3 6.7l-1.4 1.4M8.1 15.9l-1.4 1.4"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5.5 9.5V21h13V9.5"/><path d="M10 21v-6h4v6"/></symbol>
+    <symbol id="i-office" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17.5"/><line x1="9" y1="8" x2="10.5" y2="8"/><line x1="13.5" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="10.5" y2="12"/><line x1="13.5" y1="12" x2="15" y2="12"/><path d="M10.5 21v-3.5h3V21"/></symbol>
+    <symbol id="i-case" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="12.5" rx="2"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5"/><line x1="3" y1="12.5" x2="21" y2="12.5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="4.5 12.5 9.5 17.5 19.5 6.5"/></symbol>
+  </defs>
+</svg>
+
+<!-- custom cursor + voortgang + sfeer -->
+<div id="cdot" aria-hidden="true"></div>
+<div id="cring" aria-hidden="true"></div>
+<div id="progress" aria-hidden="true"></div>
+<div class="orb orb-1" aria-hidden="true"></div>
+<div class="orb orb-2" aria-hidden="true"></div>
+<div class="orb orb-3" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<nav aria-label="Hoofdnavigatie">
+  <a class="nav-logo" href="#top">EY<span>.</span></a>
+  <div class="nav-links">
+    <a href="#projecten">Projecten</a>
+    <a href="#inzet">Inzet</a>
+    <a href="#traject">Traject</a>
+    <a href="#claude">AI-native</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a class="nav-cta" href="https://www.linkedin.com/in/eren-yilmaz-04b7463a6" target="_blank" rel="noopener noreferrer">
+    LinkedIn <span class="pill-ico"><svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></span>
+  </a>
+  <button class="burger" id="burger" aria-label="Menu openen"><span></span><span></span></button>
+</nav>
+
+<div class="overlay" id="overlay">
+  <a href="#projecten">Projecten</a>
+  <a href="#inzet">Inzet</a>
+  <a href="#traject">Traject</a>
+  <a href="#claude">AI-native</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>Beschikbaar — freelance · remote · on-site</span>
+      <h1 class="h-stagger"><span class="w">Ik</span> <span class="w">bouw</span> <span class="w">software</span> <span class="w">die</span> <span class="w grad">levert.</span></h1>
+      <p class="type-line">Eren Yilmaz — <span id="typewoord"></span><span class="caret-t"></span></p>
+      <p class="lead">Junior developer uit Nijmegen met een dubbele stack die bijna niemand heeft: <strong>moderne Python</strong> én <strong>legacy PxPlus</strong>. Huur me in als freelancer, zet me remote in of geef me een bureau — dankzij een <strong>AI-native workflow</strong> lever ik meer dan mijn cv doet vermoeden.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#projecten">Bekijk mijn werk <span class="pill-ico"><svg class="ico ico-s"><use href="#i-arrow-d"/></svg></span></a>
+        <a class="btn btn-ghost" href="mailto:goedemiddag300@gmail.com">Plan een gesprek <span class="pill-ico"><svg class="ico ico-s"><use href="#i-mail"/></svg></span></a>
+      </div>
+      <div class="claude-badge">
+        <span class="spark"><svg class="ico ico-s"><use href="#i-sparkle"/></svg></span>
+        <span>Deze site — en mijn hele workflow — is <b>gebouwd met Claude</b>. AI is mijn versneller, niet mijn vervanger.</span>
+      </div>
+    </div>
+    <div class="shell term">
+      <div class="core">
+        <div class="term-head"><i></i><i></i><i></i><em>eren@nijmegen — zsh</em></div>
+        <div id="termbody"></div>
+      </div>
+    </div>
+  </header>
+
+</main>
+
+<!-- ============ TECH-MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="mtrack">
+    <span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>PxPlus</span><span>NOMADS</span><span>SQLite</span><span>REST API</span><span>Git</span><span>Claude AI</span><span>OAuth</span>
+    <span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>PxPlus</span><span>NOMADS</span><span>SQLite</span><span>REST API</span><span>Git</span><span>Claude AI</span><span>OAuth</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- ============ STATS ============ -->
+  <section id="cijfers">
+    <div class="stats reveal">
+      <div class="stat"><b data-count="2">0</b><span>stacks: legacy (PxPlus) + modern (Python)</span></div>
+      <div class="stat"><b data-count="4" data-suffix="+">0</b><span>werkende projecten, van desktop tot API</span></div>
+      <div class="stat"><b data-count="11">0</b><span>lessen professioneel PxPlus-curriculum</span></div>
+      <div class="stat"><b data-count="100" data-suffix="%">0</b><span>AI-native workflow met Claude Code</span></div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTEN ============ -->
+  <section id="projecten">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="dot"></span>Portfolio</span>
+      <h2>Projecten als bewijs.</h2>
+      <p>Geen tutorials-die-ik-ooit-volgde, maar software die draait: een complete desktop-applicatie, een persoonlijke assistent-bot en een REST API.</p>
+    </div>
+    <div class="bento">
+
+      <div class="shell tilt span-7 reveal">
+        <div class="core">
+          <div class="proj-top">
+            <span class="ico-box c-purple"><svg class="ico"><use href="#i-film"/></svg></span>
+            <span class="proj-link">Desktop-app · code op aanvraag</span>
+          </div>
+          <h3>Deathstar — Movie Library</h3>
+          <div class="sub">PxPlus · NOMADS · ProvideX</div>
+          <p>Volledige film-database desktop-applicatie, gebouwd tijdens een professioneel 11-delig PxPlus-curriculum. Van datamodel (DDF) tot afgewerkte GUI.</p>
+          <ul>
+            <li>Volledige CRUD met master/detail-relaties (films → kijk-sessies)</li>
+            <li>OOP-datalaag met herbruikbare classes (.pvc)</li>
+            <li>Security-hardening: XML-escaping, CSV-injectie-preventie, centrale error handling</li>
+            <li>Export naar XML & CSV + direct printen via het Windows-printsysteem</li>
+            <li>Zoeken & filteren, validatie en formattering op alle invoer</li>
+          </ul>
+          <div class="tags"><span class="tag">PxPlus</span><span class="tag">NOMADS</span><span class="tag">OOP</span><span class="tag">Keyed files</span><span class="tag">Legacy</span></div>
+        </div>
+      </div>
+
+      <div class="shell tilt span-5 reveal">
+        <div class="core">
+          <div class="proj-top">
+            <span class="ico-box c-green"><svg class="ico"><use href="#i-bot"/></svg></span>
+            <a class="proj-link" href="https://github.com/killanova" target="_blank" rel="noopener noreferrer">GitHub <svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></a>
+          </div>
+          <h3>Jarvis — Telegram Assistant</h3>
+          <div class="sub">Python · Google APIs · SQLite</div>
+          <p>Persoonlijke assistent-bot op Telegram: BTC-prijstracker, islamitische gebedstijden, Google-integratie (OAuth) en browser-automatisering.</p>
+          <ul>
+            <li>Google services-koppeling met OAuth-flow</li>
+            <li>Eigen database-laag (SQLite)</li>
+            <li>Modulaire opbouw: handlers, services, tools</li>
+          </ul>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Telegram API</span><span class="tag">OAuth</span><span class="tag">SQLite</span></div>
+        </div>
+      </div>
+
+      <div class="shell tilt span-5 reveal">
+        <div class="core">
+          <div class="proj-top">
+            <span class="ico-box c-blue"><svg class="ico"><use href="#i-dumbbell"/></svg></span>
+            <a class="proj-link" href="https://github.com/killanova" target="_blank" rel="noopener noreferrer">GitHub <svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></a>
+          </div>
+          <h3>FitCore API</h3>
+          <div class="sub">FastAPI · PostgreSQL · SQLAlchemy</div>
+          <p>REST API voor fitness-klantbeheer: CRUD-operaties en het bijhouden van lichaamssamenstelling-progressie over tijd.</p>
+          <ul>
+            <li>Modern Python-framework (FastAPI)</li>
+            <li>Relationele database met ORM (SQLAlchemy)</li>
+            <li>RESTful endpoints & datamodellering</li>
+          </ul>
+          <div class="tags"><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span><span class="tag">REST</span><span class="tag">ORM</span></div>
+        </div>
+      </div>
+
+      <div class="shell tilt span-7 reveal">
+        <div class="core">
+          <div class="proj-top">
+            <span class="ico-box c-amber"><svg class="ico"><use href="#i-chart"/></svg></span>
+            <a class="proj-link" href="https://github.com/killanova" target="_blank" rel="noopener noreferrer">GitHub <svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></a>
+          </div>
+          <h3>Python Learning Track</h3>
+          <div class="sub">Python · API's · Data</div>
+          <p>Mijn leertraject, openbaar op GitHub — omdat groei zichtbaar mag zijn. Van basics naar werkende tools:</p>
+          <ul>
+            <li>Live BTC-EUR tracker via de Coinbase API met timestamped JSON-logging</li>
+            <li>Voedings-/macrotracker met eigen database</li>
+            <li>OOP, exception handling, file I/O, JSON — stap voor stap opgebouwd</li>
+            <li>Work-in-progress: FastAPI CRUD-project</li>
+          </ul>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Coinbase API</span><span class="tag">JSON</span><span class="tag">Zelfstudie</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ INZET: 3 MANIEREN ============ -->
+  <section id="inzet">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="dot"></span>Flexibel inzetbaar</span>
+      <h2>Drie manieren om mij in te zetten.</h2>
+      <p>Freelance klus, remote kracht of teamgenoot op kantoor — kies wat bij jouw organisatie past. Het resultaat is hetzelfde: werkende software.</p>
+    </div>
+    <div class="reveal">
+      <div class="seg" id="seg" role="tablist">
+        <span class="seg-ind" aria-hidden="true"></span>
+        <button type="button"><svg class="ico ico-s"><use href="#i-case"/></svg>Freelance</button>
+        <button type="button"><svg class="ico ico-s"><use href="#i-home"/></svg>Remote / thuis</button>
+        <button type="button"><svg class="ico ico-s"><use href="#i-office"/></svg>Op kantoor</button>
+      </div>
+
+      <div class="inzet-panel">
+        <div>
+          <h3>Afgebakende klus, snel resultaat.</h3>
+          <p class="pitch">Automatiseringen, scripts, API-koppelingen, data-exports, interne tooltjes: precies het werk dat bij jou blijft liggen omdat het team het te druk heeft. <strong>Junior-tarief, senior-discipline</strong> — want mijn AI-workflow haalt het opzoek- en tikwerk eruit.</p>
+          <a class="mini-cta" href="mailto:goedemiddag300@gmail.com">Beschrijf je klus, ik reageer binnen 24 uur <svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></a>
+        </div>
+        <ul class="check-list">
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Heldere afspraken vooraf: scope, deadline, prijs</li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Tussentijdse demo's — je ziet wat je krijgt</li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Nette oplevering: gedocumenteerde code in git</li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Klein starten kan: eerste klus als proef</li>
+        </ul>
+      </div>
+
+      <div class="inzet-panel">
+        <div>
+          <h3>Zelfstandig, transparant, aantoonbaar.</h3>
+          <p class="pitch">Ik werk dagelijks zelfstandig met git, duidelijke commits en korte updates — remote werken is mijn natuurlijke habitat. <strong>Mijn AI-native workflow maakt mijn output zichtbaar en meetbaar</strong>: jij ziet voortgang, geen beloftes.</p>
+          <a class="mini-cta" href="mailto:goedemiddag300@gmail.com">Vraag naar mijn werkwijze <svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></a>
+        </div>
+        <ul class="check-list">
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Gewend aan async communicatie en zelf plannen</li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Dagelijkse voortgang via git en korte standups</li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Eigen ingerichte workspace — geen opstarttijd</li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Bereikbaar binnen kantoortijden, en flexibel daarbuiten</li>
+        </ul>
+      </div>
+
+      <div class="inzet-panel">
+        <div>
+          <h3>Energie en leergierigheid in je team.</h3>
+          <p class="pitch">Regio Nijmegen en omstreken. Ik ben de junior die vragen stelt, mee-reviewt, pair-programt en elke sprint beter wordt. <strong>De junior die je over twee jaar niet kwijt wil</strong> — en die intussen je team leert hoe je AI-tooling productief inzet.</p>
+          <a class="mini-cta" href="mailto:goedemiddag300@gmail.com">Nodig me uit voor een gesprek <svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></a>
+        </div>
+        <ul class="check-list">
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Leert snel: bewezen met curriculum + eigen projecten</li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Staat open voor feedback en code reviews</li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Brengt AI-kennis mee die je team direct kan gebruiken</li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Ook inzetbaar op legacy-systemen (PxPlus/ProvideX)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WAAROM MIJ ============ -->
+  <section id="waarom">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="dot"></span>Het verkooppraatje</span>
+      <h2>Waarom je mij wil.</h2>
+      <p>Eerlijk: ik ben junior. Maar ik ben het soort junior dat je over twee jaar niet meer kunt betalen.</p>
+    </div>
+    <div class="pitch-grid">
+      <div class="shell reveal"><div class="core">
+        <span class="ico-box c-purple"><svg class="ico"><use href="#i-venn"/></svg></span>
+        <h3>De zeldzame combinatie</h3>
+        <p>Duizenden bedrijven draaien op PxPlus/ProvideX — en de developers die het beheersen gaan met pensioen. Ik ben een van de weinige jonge ontwikkelaars die deze legacy-stack leert én moderne Python ernaast zet. Precies de brug die deze systemen nodig hebben.</p>
+      </div></div>
+      <div class="shell reveal"><div class="core">
+        <span class="ico-box c-green"><svg class="ico"><use href="#i-bolt"/></svg></span>
+        <h3>Bewezen leersnelheid</h3>
+        <p>In korte tijd: een compleet 11-delig PxPlus-curriculum doorgewerkt én toegepast in een werkende applicatie, plus Python van basics tot REST API's. Ik leer niet door te kijken — ik leer door te bouwen, te breken en te fixen.</p>
+      </div></div>
+      <div class="shell reveal"><div class="core">
+        <span class="ico-box c-claude"><svg class="ico"><use href="#i-sparkle"/></svg></span>
+        <h3>De AI-multiplier</h3>
+        <p>Ik werk AI-native met Claude: documentatie-first, sneller debuggen, hogere code-kwaliteit. Niet als vervanging van begrip, maar als versneller erop. Een junior met AI-discipline levert vandaag wat vroeger een medior kostte.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ TRAJECT ============ -->
+  <section id="traject">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="dot"></span>Mijn route</span>
+      <h2>Van eerste script tot AI-native.</h2>
+    </div>
+    <div class="tl">
+      <div class="tl-item reveal"><span class="tl-tag">Fundament</span><h3>Python-basis</h3><p>Variabelen tot OOP en exception handling. Alles openbaar op GitHub — groei mag zichtbaar zijn.</p></div>
+      <div class="tl-item reveal"><span class="tl-tag">Echte data</span><h3>API's & databases</h3><p>Live BTC-tracker op de Coinbase API, JSON-logging, en FitCore: een FastAPI REST API met PostgreSQL.</p></div>
+      <div class="tl-item reveal"><span class="tl-tag">Legacy-vakwerk</span><h3>PxPlus-curriculum (11 lessen)</h3><p>Professionele Business Basic-opleiding: keyed files, NOMADS-GUI's, OOP, grids, printing. De stack waar bedrijfssoftware écht op draait.</p></div>
+      <div class="tl-item reveal"><span class="tl-tag">Compleet product</span><h3>Deathstar-applicatie</h3><p>Alle lessen samengebracht in één werkende app: CRUD, master/detail, OOP-datalaag, security-hardening, exports en printen.</p></div>
+      <div class="tl-item reveal"><span class="tl-tag">Workflow</span><h3>AI-native werken</h3><p>Claude Code als dagelijkse co-piloot: documentatie-first, geverifieerde keuzes, hogere kwaliteit per uur.</p></div>
+      <div class="tl-item now reveal"><span class="tl-tag">Volgende stap</span><h3>Jouw team?</h3><p>Freelance-klus, remote rol of een bureau op kantoor in Nijmegen e.o. — ik ben er klaar voor.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ GEBOUWD MET CLAUDE ============ -->
+  <section id="claude" class="claude-sec">
+    <div class="shell reveal"><div class="core">
+      <div class="claude-grid">
+        <div>
+          <span class="eyebrow"><svg class="ico ico-s c-claude"><use href="#i-sparkle"/></svg>Gebouwd met Claude</span>
+          <h2>Deze hele site? Met Claude gebouwd. <span>Bewust.</span></h2>
+          <p>Dit portfolio is geen verstopte AI-output — het is een demonstratie. Zo werk ik: ik stuur de AI aan met duidelijke eisen, controleer elke aanname tegen documentatie, en lever het resultaat sneller op dan traditioneel mogelijk is.</p>
+          <p>De developer van de toekomst typt niet sneller. Hij <strong>denkt</strong> beter, <strong>controleert</strong> scherper en <strong>levert</strong> vaker.</p>
+          <div class="ref-card">
+            <blockquote>"Eren stuurt me aan zoals je het wil zien: eisen helder, bron eerst, alles geverifieerd. Ik doe het tikwerk — hij bewaakt de kwaliteit."</blockquote>
+            <cite>— <b>Claude</b>, de AI waarmee deze site is gebouwd</cite>
+          </div>
+        </div>
+        <ul class="claude-points">
+          <li>Documentatie-first: elke technische keuze geverifieerd tegen de officiële bron</li>
+          <li>AI als pair-programmer bij debuggen, reviews en security-checks</li>
+          <li>Zelf de architectuur en eisen bepalen — AI voert mee uit</li>
+          <li>Deze site: zero externe afhankelijkheden, strikte CSP, zelf-gehoste fonts</li>
+        </ul>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ============ DIENSTEN ============ -->
+  <section id="diensten">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="dot"></span>Concreet</span>
+      <h2>Wat ik voor je kan doen.</h2>
+    </div>
+    <div class="diensten reveal">
+      <div class="dienst">
+        <span class="nr">01</span>
+        <div><h3>Legacy-systemen onderhouden & uitbouwen</h3><p>PxPlus/ProvideX-applicaties begrijpen, debuggen, beveiligen en uitbreiden — inclusief NOMADS-panels, keyed files en datamodellen.</p></div>
+        <svg class="ico"><use href="#i-terminal"/></svg>
+      </div>
+      <div class="dienst">
+        <span class="nr">02</span>
+        <div><h3>Interne tools & automatisering bouwen</h3><p>Repetitief werk weg-automatiseren met Python: bots, scripts, API-koppelingen, data-exports. Klein bouwen, snel opleveren.</p></div>
+        <svg class="ico"><use href="#i-gear"/></svg>
+      </div>
+      <div class="dienst">
+        <span class="nr">03</span>
+        <div><h3>API's & data-koppelingen</h3><p>REST API's opzetten met FastAPI, databases modelleren, externe services koppelen (Google, betaaldata, crypto-feeds).</p></div>
+        <svg class="ico"><use href="#i-link"/></svg>
+      </div>
+      <div class="dienst">
+        <span class="nr">04</span>
+        <div><h3>AI-workflows in je team brengen</h3><p>Ik weet uit dagelijkse praktijk hoe je AI-tooling veilig en productief inzet bij development — en kan dat overdragen aan je team.</p></div>
+        <svg class="ico"><use href="#i-sparkle"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact" class="contact">
+    <span class="eyebrow reveal"><span class="dot"></span>Laten we praten</span>
+    <h2 class="reveal">Zoek je een junior die <span class="grad">levert</span>?</h2>
+    <p class="reveal">Freelance klus, remote rol of op kantoor in Nijmegen e.o. — één gesprek en je weet of het klikt.</p>
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" href="https://www.linkedin.com/in/eren-yilmaz-04b7463a6" target="_blank" rel="noopener noreferrer">Connect op LinkedIn <span class="pill-ico"><svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></span></a>
+      <a class="btn btn-ghost" href="mailto:goedemiddag300@gmail.com">Stuur een mail <span class="pill-ico"><svg class="ico ico-s"><use href="#i-mail"/></svg></span></a>
+      <a class="btn btn-ghost" href="https://github.com/killanova" target="_blank" rel="noopener noreferrer">GitHub <span class="pill-ico"><svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></span></a>
+    </div>
+    <small class="reveal">Reactie binnen 24 uur — meestal sneller.</small>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wm" aria-hidden="true">EREN YILMAZ</div>
+  <div class="foot-line">© <span id="jaar"></span> Eren Yilmaz · Nijmegen · <b>✦ Gebouwd met Claude</b> — bewust zichtbaar</div>
+</footer>
+
+</body>
+</html>
