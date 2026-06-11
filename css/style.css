@@ -148,12 +148,6 @@ body.loaded .h-stagger .w{opacity:1;transform:none;filter:none}
 .btn-ghost{border:1px solid var(--hairline-2);color:var(--text);background:rgba(255,255,255,.03)}
 .btn-ghost:hover{background:rgba(255,255,255,.07)}
 .btn-ghost .pill-ico{background:rgba(255,255,255,.08)}
-.claude-badge{display:inline-flex;align-items:center;gap:12px;margin-top:44px;background:rgba(217,119,87,.09);border:1px solid rgba(217,119,87,.35);border-radius:999px;padding:9px 20px 9px 12px;max-width:100%;box-shadow:inset 0 1px 1px rgba(255,255,255,.06),0 0 40px rgba(217,119,87,.08)}
-.claude-badge .spark{width:30px;height:30px;flex:none;border-radius:50%;background:rgba(217,119,87,.18);display:flex;align-items:center;justify-content:center;color:var(--claude);animation:pulse 3s var(--ease) infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
-.claude-badge span{font-size:13px;color:var(--muted)}
-.claude-badge b{color:var(--claude);font-weight:600}
-
 /* ---------- terminal (double-bezel) ---------- */
 .shell{background:rgba(255,255,255,.05);border:1px solid var(--hairline);border-radius:var(--r-outer);padding:7px;transition:border-color .7s var(--ease)}
 .shell:hover{border-color:var(--hairline-2)}
@@ -250,11 +244,6 @@ body.loaded .h-stagger .w{opacity:1;transform:none;filter:none}
 .claude-points li{color:var(--muted);font-size:15px;padding:14px 0 14px 36px;position:relative;border-bottom:1px solid var(--hairline)}
 .claude-points li:last-child{border-bottom:none}
 .claude-points li::before{content:"✦";position:absolute;left:6px;color:var(--claude)}
-.ref-card{margin-top:34px;border-left:2px solid var(--claude);padding:6px 0 6px 24px}
-.ref-card blockquote{font-family:'Space Grotesk';font-size:17.5px;font-weight:500;color:var(--text);line-height:1.5;margin-bottom:10px}
-.ref-card cite{font-style:normal;font-size:13px;color:var(--faint)}
-.ref-card cite b{color:var(--claude);font-weight:600}
-
 /* ---------- diensten ---------- */
 .diensten{display:flex;flex-direction:column;border-top:1px solid var(--hairline)}
 .dienst{display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:24px;padding:32px 10px;border-bottom:1px solid var(--hairline);transition:background .6s var(--ease),padding .6s var(--ease)}
