@@ -4,25 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eren Yilmaz — Junior Developer · Python & PxPlus · Nijmegen</title>
-<meta name="description" content="Junior developer met een zeldzame dubbele stack: moderne Python én legacy PxPlus. Inzetbaar als freelancer, remote of op kantoor. AI-native, gebouwd met Claude.">
+<meta name="description" content="Junior developer met een zeldzame dubbele stack: moderne Python én legacy PxPlus. Een portfolio als korte film — scroll en de reis begint. Inzetbaar als freelancer, remote of op kantoor.">
 <!-- SECURITY: strikte CSP — alles komt van 'self', nul externe bronnen, geen inline scripts/styles -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="theme-color" content="#030304">
+<meta name="theme-color" content="#04040a">
 <meta property="og:title" content="Eren Yilmaz — Junior Developer · Python & PxPlus">
-<meta property="og:description" content="Van legacy tot AI-native. Freelance, remote of op kantoor — één gesprek en je weet genoeg.">
+<meta property="og:description" content="Een portfolio als scrollende korte film. Van legacy tot AI-native — één gesprek en je weet genoeg.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://killanova.github.io">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050505'/%3E%3Ctext x='32' y='43' font-family='Arial' font-size='26' font-weight='bold' fill='%23d97757' text-anchor='middle'%3EEY%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2305060a'/%3E%3Ctext x='32' y='43' font-family='Arial' font-size='26' font-weight='bold' fill='%23d97757' text-anchor='middle'%3EEY%3C/text%3E%3C/svg%3E">
 <link rel="preload" href="fonts/SpaceGrotesk-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/PlusJakartaSans-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
+<script src="js/cinema.js" defer></script>
 <script src="js/main.js" defer></script>
 </head>
 <body>
 
+<!-- ============ DE FILM (scroll-gestuurd canvas, geen videobestand) ============ -->
+<canvas id="cinema" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="bars" aria-hidden="true"><span></span><span></span></div>
+
 <!-- icon-sprite: alle iconen inline, geen externe icon-CDN nodig -->
-<svg width="0" height="0" aria-hidden="true">
+<svg width="0" height="0" aria-hidden="true" focusable="false">
   <defs>
     <symbol id="i-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="8 7 17 7 17 16"/></symbol>
     <symbol id="i-arrow-d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 19 19 12"/></symbol>
@@ -41,27 +48,27 @@
     <symbol id="i-office" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17.5"/><line x1="9" y1="8" x2="10.5" y2="8"/><line x1="13.5" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="10.5" y2="12"/><line x1="13.5" y1="12" x2="15" y2="12"/><path d="M10.5 21v-3.5h3V21"/></symbol>
     <symbol id="i-case" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="12.5" rx="2"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5"/><line x1="3" y1="12.5" x2="21" y2="12.5"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="4.5 12.5 9.5 17.5 19.5 6.5"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.5 2.6 15.5 0 18M12 3c-2.6 2.5-2.6 15.5 0 18"/></symbol>
   </defs>
 </svg>
 
-<!-- custom cursor + voortgang + sfeer -->
+<!-- custom cursor + voortgang -->
 <div id="cdot" aria-hidden="true"></div>
 <div id="cring" aria-hidden="true"></div>
 <div id="progress" aria-hidden="true"></div>
-<div class="orb orb-1" aria-hidden="true"></div>
-<div class="orb orb-2" aria-hidden="true"></div>
-<div class="orb orb-3" aria-hidden="true"></div>
-<div class="grain" aria-hidden="true"></div>
 
 <nav aria-label="Hoofdnavigatie">
   <a class="nav-logo" href="#top">EY<span>.</span></a>
   <div class="nav-links">
-    <a href="#projecten">Projecten</a>
-    <a href="#inzet">Inzet</a>
-    <a href="#traject">Traject</a>
-    <a href="#claude">AI-native</a>
-    <a href="#contact">Contact</a>
+    <a href="#werk" data-nl="Werk" data-en="Work">Werk</a>
+    <a href="#inzet" data-nl="Inzet" data-en="Hire">Inzet</a>
+    <a href="#traject" data-nl="Traject" data-en="Path">Traject</a>
+    <a href="#werkwijze" data-nl="Werkwijze" data-en="Method">Werkwijze</a>
+    <a href="#contact" data-nl="Contact" data-en="Contact">Contact</a>
   </div>
+  <button class="lang" id="lang" type="button" aria-label="Switch to English">
+    <svg class="ico ico-s"><use href="#i-globe"/></svg><span id="langlabel">EN</span>
+  </button>
   <a class="nav-cta" href="https://www.linkedin.com/in/eren-yilmaz-04b7463a6" target="_blank" rel="noopener noreferrer">
     LinkedIn <span class="pill-ico"><svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></span>
   </a>
@@ -69,63 +76,92 @@
 </nav>
 
 <div class="overlay" id="overlay">
-  <a href="#projecten">Projecten</a>
-  <a href="#inzet">Inzet</a>
-  <a href="#traject">Traject</a>
-  <a href="#claude">AI-native</a>
-  <a href="#contact">Contact</a>
+  <a href="#werk" data-nl="Werk" data-en="Work">Werk</a>
+  <a href="#inzet" data-nl="Inzet" data-en="Hire">Inzet</a>
+  <a href="#traject" data-nl="Traject" data-en="Path">Traject</a>
+  <a href="#werkwijze" data-nl="Werkwijze" data-en="Method">Werkwijze</a>
+  <a href="#contact" data-nl="Contact" data-en="Contact">Contact</a>
 </div>
+
+<!-- ============ HOOFDSTUKKEN-HUD (de film-tijdlijn) ============ -->
+<aside class="hud" aria-hidden="true">
+  <div class="hud-rec"><span class="rec-dot"></span><span data-nl="DE REIS" data-en="THE JOURNEY">DE REIS</span></div>
+  <ol class="chapters">
+    <li data-scene="0"><b>01</b><span data-nl="Dageraad" data-en="Daybreak">Dageraad</span></li>
+    <li data-scene="1"><b>02</b><span data-nl="Twee werelden" data-en="Two worlds">Twee werelden</span></li>
+    <li data-scene="2"><b>03</b><span data-nl="Het werk" data-en="The work">Het werk</span></li>
+    <li data-scene="3"><b>04</b><span data-nl="De werkwijze" data-en="The method">De werkwijze</span></li>
+    <li data-scene="4"><b>05</b><span data-nl="De top" data-en="The summit">De top</span></li>
+  </ol>
+  <div class="hud-tc"><span id="tc">00:00</span> / 01:00</div>
+</aside>
 
 <main id="top">
 
-  <!-- ============ HERO ============ -->
-  <header class="hero">
-    <div>
-      <span class="eyebrow"><span class="dot"></span>Beschikbaar — freelance · remote · on-site</span>
-      <h1 class="h-stagger"><span class="w">Ik</span> <span class="w">bouw</span> <span class="w">software</span> <span class="w">die</span> <span class="w grad">levert.</span></h1>
+  <!-- ============ HOOFDSTUK 01 — DAGERAAD (HERO) ============ -->
+  <header class="hero" data-scene="0">
+    <div class="hero-inner">
+      <span class="eyebrow"><span class="dot"></span><span data-nl="Beschikbaar — freelance · remote · on-site" data-en="Available — freelance · remote · on-site">Beschikbaar — freelance · remote · on-site</span></span>
+      <h1 class="h-stagger" data-nl="Ik bouw software die levert." data-en="I build software that delivers." data-grad="1">Ik bouw software die levert.</h1>
       <p class="type-line">Eren Yilmaz — <span id="typewoord"></span><span class="caret-t"></span></p>
-      <p class="lead">Junior developer uit Nijmegen met een dubbele stack die bijna niemand heeft: <strong>moderne Python</strong> én <strong>legacy PxPlus</strong>. Huur me in als freelancer, zet me remote in of geef me een bureau — dankzij een <strong>AI-native workflow</strong> lever ik meer dan mijn cv doet vermoeden.</p>
+      <p class="lead" data-nl="Junior developer uit Nijmegen met een dubbele stack die bijna niemand heeft: moderne Python én legacy PxPlus. Huur me in als freelancer, zet me remote in of geef me een bureau — met een AI-native workflow lever ik meer dan mijn cv doet vermoeden." data-en="Junior developer from Nijmegen with a dual stack almost no one has: modern Python and legacy PxPlus. Hire me freelance, plug me in remotely, or give me a desk — with an AI-native workflow I deliver more than my CV suggests.">Junior developer uit Nijmegen met een dubbele stack die bijna niemand heeft: moderne Python én legacy PxPlus. Huur me in als freelancer, zet me remote in of geef me een bureau — met een AI-native workflow lever ik meer dan mijn cv doet vermoeden.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#projecten">Bekijk mijn werk <span class="pill-ico"><svg class="ico ico-s"><use href="#i-arrow-d"/></svg></span></a>
-        <a class="btn btn-ghost" href="mailto:goedemiddag300@gmail.com">Plan een gesprek <span class="pill-ico"><svg class="ico ico-s"><use href="#i-mail"/></svg></span></a>
+        <a class="btn btn-primary" href="#werk"><span data-nl="Bekijk mijn werk" data-en="See my work">Bekijk mijn werk</span> <span class="pill-ico"><svg class="ico ico-s"><use href="#i-arrow-d"/></svg></span></a>
+        <a class="btn btn-ghost" href="mailto:goedemiddag300@gmail.com"><span data-nl="Plan een gesprek" data-en="Plan a call">Plan een gesprek</span> <span class="pill-ico"><svg class="ico ico-s"><use href="#i-mail"/></svg></span></a>
       </div>
     </div>
-    <div class="shell term">
-      <div class="core">
-        <div class="term-head"><i></i><i></i><i></i><em>eren@nijmegen — zsh</em></div>
-        <div id="termbody"></div>
-      </div>
+    <div class="scroll-hint" aria-hidden="true">
+      <span data-nl="Scroll — de film begint" data-en="Scroll — the film begins">Scroll — de film begint</span>
+      <svg class="ico ico-s"><use href="#i-arrow-d"/></svg>
     </div>
   </header>
 
-</main>
+  <!-- ============ HOOFDSTUK 02 — TWEE WERELDEN ============ -->
+  <section id="stack" data-scene="1">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="dot"></span><span data-nl="Hoofdstuk 02 — Twee werelden" data-en="Chapter 02 — Two worlds">Hoofdstuk 02 — Twee werelden</span></span>
+      <h2 data-nl="Eén ontwikkelaar, twee tijdperken." data-en="One developer, two eras.">Eén ontwikkelaar, twee tijdperken.</h2>
+      <p data-nl="Aan de ene kant de systemen waar bedrijven al decennia op draaien. Aan de andere kant de stack van vandaag. Ik loop over de richel ertussen — en bouw de brug." data-en="On one side the systems companies have run on for decades. On the other, today's stack. I walk the ridge between them — and build the bridge.">Aan de ene kant de systemen waar bedrijven al decennia op draaien. Aan de andere kant de stack van vandaag. Ik loop over de richel ertussen — en bouw de brug.</p>
+    </div>
 
-<!-- ============ TECH-MARQUEE ============ -->
-<div class="marquee" aria-hidden="true">
-  <div class="mtrack">
-    <span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>PxPlus</span><span>NOMADS</span><span>SQLite</span><span>REST API</span><span>Git</span><span>Claude AI</span><span>OAuth</span>
-    <span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>PxPlus</span><span>NOMADS</span><span>SQLite</span><span>REST API</span><span>Git</span><span>Claude AI</span><span>OAuth</span>
-  </div>
-</div>
+    <div class="worlds">
+      <div class="world world-legacy reveal">
+        <span class="world-tag" data-nl="De gevestigde wereld" data-en="The established world">De gevestigde wereld</span>
+        <h3>Legacy · PxPlus</h3>
+        <p data-nl="Duizenden bedrijven draaien op PxPlus / ProvideX — en de developers die het beheersen gaan met pensioen. Ik ben een van de weinige jonge ontwikkelaars die deze stack leert." data-en="Thousands of businesses run on PxPlus / ProvideX — and the developers who master it are retiring. I'm one of the few young developers learning this stack.">Duizenden bedrijven draaien op PxPlus / ProvideX — en de developers die het beheersen gaan met pensioen. Ik ben een van de weinige jonge ontwikkelaars die deze stack leert.</p>
+        <div class="tags"><span class="tag">PxPlus</span><span class="tag">ProvideX</span><span class="tag">NOMADS</span><span class="tag">Keyed files</span><span class="tag">OOP</span></div>
+      </div>
+      <div class="world-bridge reveal" aria-hidden="true"><svg class="ico"><use href="#i-venn"/></svg></div>
+      <div class="world world-modern reveal">
+        <span class="world-tag" data-nl="De wereld van vandaag" data-en="Today's world">De wereld van vandaag</span>
+        <h3>Modern · Python</h3>
+        <p data-nl="REST API's, automatiseringen en datakoppelingen met de tools van nu. Snel opgebouwd, netjes in git, getest tegen de echte documentatie." data-en="REST APIs, automations and data integrations with the tools of today. Built fast, kept clean in git, verified against the real documentation.">REST API's, automatiseringen en datakoppelingen met de tools van nu. Snel opgebouwd, netjes in git, getest tegen de echte documentatie.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span><span class="tag">SQLite</span><span class="tag">REST</span></div>
+      </div>
+    </div>
 
-<main>
-
-  <!-- ============ STATS ============ -->
-  <section id="cijfers">
     <div class="stats reveal">
-      <div class="stat"><b data-count="2">0</b><span>stacks: legacy (PxPlus) + modern (Python)</span></div>
-      <div class="stat"><b data-count="4" data-suffix="+">0</b><span>werkende projecten, van desktop tot API</span></div>
-      <div class="stat"><b data-count="11">0</b><span>lessen professioneel PxPlus-curriculum</span></div>
-      <div class="stat"><b data-count="100" data-suffix="%">0</b><span>AI-native workflow met Claude Code</span></div>
+      <div class="stat"><b data-count="2">0</b><span data-nl="stacks: legacy (PxPlus) + modern (Python)" data-en="stacks: legacy (PxPlus) + modern (Python)">stacks: legacy (PxPlus) + modern (Python)</span></div>
+      <div class="stat"><b data-count="4" data-suffix="+">0</b><span data-nl="werkende projecten, van desktop tot API" data-en="working projects, from desktop to API">werkende projecten, van desktop tot API</span></div>
+      <div class="stat"><b data-count="11">0</b><span data-nl="lessen professioneel PxPlus-curriculum" data-en="lessons in a professional PxPlus curriculum">lessen professioneel PxPlus-curriculum</span></div>
+      <div class="stat"><b data-count="100" data-suffix="%">0</b><span data-nl="AI-native workflow" data-en="AI-native workflow">AI-native workflow</span></div>
     </div>
   </section>
 
-  <!-- ============ PROJECTEN ============ -->
-  <section id="projecten">
+  <!-- ============ TECH-MARQUEE ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="mtrack">
+      <span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>PxPlus</span><span>NOMADS</span><span>SQLite</span><span>REST API</span><span>Git</span><span>Claude</span><span>OAuth</span>
+      <span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>PxPlus</span><span>NOMADS</span><span>SQLite</span><span>REST API</span><span>Git</span><span>Claude</span><span>OAuth</span>
+    </div>
+  </div>
+
+  <!-- ============ HOOFDSTUK 03 — HET WERK ============ -->
+  <section id="werk" data-scene="2">
     <div class="sec-head reveal">
-      <span class="eyebrow"><span class="dot"></span>Portfolio</span>
-      <h2>Projecten als bewijs.</h2>
-      <p>Geen tutorials-die-ik-ooit-volgde, maar software die draait: een complete desktop-applicatie, een persoonlijke assistent-bot en een REST API.</p>
+      <span class="eyebrow"><span class="dot"></span><span data-nl="Hoofdstuk 03 — Het werk" data-en="Chapter 03 — The work">Hoofdstuk 03 — Het werk</span></span>
+      <h2 data-nl="Projecten als bewijs." data-en="Projects as proof.">Projecten als bewijs.</h2>
+      <p data-nl="Geen tutorials-die-ik-ooit-volgde, maar software die draait: een complete desktop-applicatie, een persoonlijke assistent-bot en een REST API." data-en="Not tutorials-I-once-followed, but software that runs: a complete desktop application, a personal assistant bot and a REST API.">Geen tutorials-die-ik-ooit-volgde, maar software die draait: een complete desktop-applicatie, een persoonlijke assistent-bot en een REST API.</p>
     </div>
     <div class="bento">
 
@@ -133,17 +169,16 @@
         <div class="core">
           <div class="proj-top">
             <span class="ico-box c-purple"><svg class="ico"><use href="#i-film"/></svg></span>
-            <span class="proj-link">Desktop-app · code op aanvraag</span>
+            <span class="proj-link" data-nl="Desktop-app · code op aanvraag" data-en="Desktop app · code on request">Desktop-app · code op aanvraag</span>
           </div>
           <h3>Deathstar — Movie Library</h3>
           <div class="sub">PxPlus · NOMADS · ProvideX</div>
-          <p>Volledige film-database desktop-applicatie, gebouwd tijdens een professioneel 11-delig PxPlus-curriculum. Van datamodel (DDF) tot afgewerkte GUI.</p>
+          <p data-nl="Volledige film-database desktop-applicatie, gebouwd tijdens een professioneel 11-delig PxPlus-curriculum. Van datamodel (DDF) tot afgewerkte GUI." data-en="Complete movie-database desktop application, built during a professional 11-part PxPlus curriculum. From data model (DDF) to finished GUI.">Volledige film-database desktop-applicatie, gebouwd tijdens een professioneel 11-delig PxPlus-curriculum. Van datamodel (DDF) tot afgewerkte GUI.</p>
           <ul>
-            <li>Volledige CRUD met master/detail-relaties (films → kijk-sessies)</li>
-            <li>OOP-datalaag met herbruikbare classes (.pvc)</li>
-            <li>Security-hardening: XML-escaping, CSV-injectie-preventie, centrale error handling</li>
-            <li>Export naar XML & CSV + direct printen via het Windows-printsysteem</li>
-            <li>Zoeken & filteren, validatie en formattering op alle invoer</li>
+            <li data-nl="Volledige CRUD met master/detail-relaties (films → kijk-sessies)" data-en="Full CRUD with master/detail relations (movies → viewing sessions)">Volledige CRUD met master/detail-relaties (films → kijk-sessies)</li>
+            <li data-nl="OOP-datalaag met herbruikbare classes (.pvc)" data-en="OOP data layer with reusable classes (.pvc)">OOP-datalaag met herbruikbare classes (.pvc)</li>
+            <li data-nl="Security-hardening: XML-escaping, CSV-injectie-preventie, centrale error handling" data-en="Security hardening: XML escaping, CSV-injection prevention, central error handling">Security-hardening: XML-escaping, CSV-injectie-preventie, centrale error handling</li>
+            <li data-nl="Export naar XML & CSV + direct printen via het Windows-printsysteem" data-en="Export to XML & CSV + direct printing via the Windows print system">Export naar XML &amp; CSV + direct printen via het Windows-printsysteem</li>
           </ul>
           <div class="tags"><span class="tag">PxPlus</span><span class="tag">NOMADS</span><span class="tag">OOP</span><span class="tag">Keyed files</span><span class="tag">Legacy</span></div>
         </div>
@@ -157,11 +192,11 @@
           </div>
           <h3>Jarvis — Telegram Assistant</h3>
           <div class="sub">Python · Google APIs · SQLite</div>
-          <p>Persoonlijke assistent-bot op Telegram: BTC-prijstracker, islamitische gebedstijden, Google-integratie (OAuth) en browser-automatisering.</p>
+          <p data-nl="Persoonlijke assistent-bot op Telegram: BTC-prijstracker, islamitische gebedstijden, Google-integratie (OAuth) en browser-automatisering." data-en="Personal assistant bot on Telegram: BTC price tracker, Islamic prayer times, Google integration (OAuth) and browser automation.">Persoonlijke assistent-bot op Telegram: BTC-prijstracker, islamitische gebedstijden, Google-integratie (OAuth) en browser-automatisering.</p>
           <ul>
-            <li>Google services-koppeling met OAuth-flow</li>
-            <li>Eigen database-laag (SQLite)</li>
-            <li>Modulaire opbouw: handlers, services, tools</li>
+            <li data-nl="Google services-koppeling met OAuth-flow" data-en="Google services integration with OAuth flow">Google services-koppeling met OAuth-flow</li>
+            <li data-nl="Eigen database-laag (SQLite)" data-en="Own database layer (SQLite)">Eigen database-laag (SQLite)</li>
+            <li data-nl="Modulaire opbouw: handlers, services, tools" data-en="Modular structure: handlers, services, tools">Modulaire opbouw: handlers, services, tools</li>
           </ul>
           <div class="tags"><span class="tag">Python</span><span class="tag">Telegram API</span><span class="tag">OAuth</span><span class="tag">SQLite</span></div>
         </div>
@@ -175,11 +210,11 @@
           </div>
           <h3>FitCore API</h3>
           <div class="sub">FastAPI · PostgreSQL · SQLAlchemy</div>
-          <p>REST API voor fitness-klantbeheer: CRUD-operaties en het bijhouden van lichaamssamenstelling-progressie over tijd.</p>
+          <p data-nl="REST API voor fitness-klantbeheer: CRUD-operaties en het bijhouden van lichaamssamenstelling-progressie over tijd." data-en="REST API for fitness client management: CRUD operations and tracking body-composition progress over time.">REST API voor fitness-klantbeheer: CRUD-operaties en het bijhouden van lichaamssamenstelling-progressie over tijd.</p>
           <ul>
-            <li>Modern Python-framework (FastAPI)</li>
-            <li>Relationele database met ORM (SQLAlchemy)</li>
-            <li>RESTful endpoints & datamodellering</li>
+            <li data-nl="Modern Python-framework (FastAPI)" data-en="Modern Python framework (FastAPI)">Modern Python-framework (FastAPI)</li>
+            <li data-nl="Relationele database met ORM (SQLAlchemy)" data-en="Relational database with ORM (SQLAlchemy)">Relationele database met ORM (SQLAlchemy)</li>
+            <li data-nl="RESTful endpoints & datamodellering" data-en="RESTful endpoints & data modelling">RESTful endpoints &amp; datamodellering</li>
           </ul>
           <div class="tags"><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span><span class="tag">REST</span><span class="tag">ORM</span></div>
         </div>
@@ -193,12 +228,11 @@
           </div>
           <h3>Python Learning Track</h3>
           <div class="sub">Python · API's · Data</div>
-          <p>Mijn leertraject, openbaar op GitHub — omdat groei zichtbaar mag zijn. Van basics naar werkende tools:</p>
+          <p data-nl="Mijn leertraject, openbaar op GitHub — omdat groei zichtbaar mag zijn. Van basics naar werkende tools:" data-en="My learning track, public on GitHub — because growth is allowed to be visible. From basics to working tools:">Mijn leertraject, openbaar op GitHub — omdat groei zichtbaar mag zijn. Van basics naar werkende tools:</p>
           <ul>
-            <li>Live BTC-EUR tracker via de Coinbase API met timestamped JSON-logging</li>
-            <li>Voedings-/macrotracker met eigen database</li>
-            <li>OOP, exception handling, file I/O, JSON — stap voor stap opgebouwd</li>
-            <li>Work-in-progress: FastAPI CRUD-project</li>
+            <li data-nl="Live BTC-EUR tracker via de Coinbase API met timestamped JSON-logging" data-en="Live BTC-EUR tracker via the Coinbase API with timestamped JSON logging">Live BTC-EUR tracker via de Coinbase API met timestamped JSON-logging</li>
+            <li data-nl="Voedings-/macrotracker met eigen database" data-en="Nutrition/macro tracker with its own database">Voedings-/macrotracker met eigen database</li>
+            <li data-nl="OOP, exception handling, file I/O, JSON — stap voor stap opgebouwd" data-en="OOP, exception handling, file I/O, JSON — built up step by step">OOP, exception handling, file I/O, JSON — stap voor stap opgebouwd</li>
           </ul>
           <div class="tags"><span class="tag">Python</span><span class="tag">Coinbase API</span><span class="tag">JSON</span><span class="tag">Zelfstudie</span></div>
         </div>
@@ -210,172 +244,121 @@
   <!-- ============ INZET: 3 MANIEREN ============ -->
   <section id="inzet">
     <div class="sec-head reveal">
-      <span class="eyebrow"><span class="dot"></span>Flexibel inzetbaar</span>
-      <h2>Drie manieren om mij in te zetten.</h2>
-      <p>Freelance klus, remote kracht of teamgenoot op kantoor — kies wat bij jouw organisatie past. Het resultaat is hetzelfde: werkende software.</p>
+      <span class="eyebrow"><span class="dot"></span><span data-nl="Flexibel inzetbaar" data-en="Flexible to engage">Flexibel inzetbaar</span></span>
+      <h2 data-nl="Drie manieren om mij in te zetten." data-en="Three ways to put me to work.">Drie manieren om mij in te zetten.</h2>
+      <p data-nl="Freelance klus, remote kracht of teamgenoot op kantoor — kies wat bij jouw organisatie past. Het resultaat is hetzelfde: werkende software." data-en="Freelance job, remote force or teammate at the office — pick what fits your organisation. The result is the same: working software.">Freelance klus, remote kracht of teamgenoot op kantoor — kies wat bij jouw organisatie past. Het resultaat is hetzelfde: werkende software.</p>
     </div>
     <div class="reveal">
       <div class="seg" id="seg" role="tablist">
         <span class="seg-ind" aria-hidden="true"></span>
-        <button type="button"><svg class="ico ico-s"><use href="#i-case"/></svg>Freelance</button>
-        <button type="button"><svg class="ico ico-s"><use href="#i-home"/></svg>Remote / thuis</button>
-        <button type="button"><svg class="ico ico-s"><use href="#i-office"/></svg>Op kantoor</button>
+        <button type="button"><svg class="ico ico-s"><use href="#i-case"/></svg><span data-nl="Freelance" data-en="Freelance">Freelance</span></button>
+        <button type="button"><svg class="ico ico-s"><use href="#i-home"/></svg><span data-nl="Remote / thuis" data-en="Remote / home">Remote / thuis</span></button>
+        <button type="button"><svg class="ico ico-s"><use href="#i-office"/></svg><span data-nl="Op kantoor" data-en="On-site">Op kantoor</span></button>
       </div>
 
       <div class="inzet-panel">
         <div>
-          <h3>Afgebakende klus, snel resultaat.</h3>
-          <p class="pitch">Automatiseringen, scripts, API-koppelingen, data-exports, interne tooltjes: precies het werk dat bij jou blijft liggen omdat het team het te druk heeft. <strong>Junior-tarief, senior-discipline</strong> — want mijn AI-workflow haalt het opzoek- en tikwerk eruit.</p>
-          <a class="mini-cta" href="mailto:goedemiddag300@gmail.com">Beschrijf je klus, ik reageer binnen 24 uur <svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></a>
+          <h3 data-nl="Afgebakende klus, snel resultaat." data-en="Scoped job, fast result.">Afgebakende klus, snel resultaat.</h3>
+          <p class="pitch" data-nl="Automatiseringen, scripts, API-koppelingen, data-exports, interne tooltjes: precies het werk dat blijft liggen omdat het team het te druk heeft. Junior-tarief, senior-discipline — want mijn AI-workflow haalt het opzoek- en tikwerk eruit." data-en="Automations, scripts, API integrations, data exports, small internal tools: exactly the work left undone because the team is too busy. Junior rate, senior discipline — my AI workflow removes the looking-up and typing.">Automatiseringen, scripts, API-koppelingen, data-exports, interne tooltjes: precies het werk dat blijft liggen omdat het team het te druk heeft. Junior-tarief, senior-discipline — want mijn AI-workflow haalt het opzoek- en tikwerk eruit.</p>
+          <a class="mini-cta" href="mailto:goedemiddag300@gmail.com"><span data-nl="Beschrijf je klus, ik reageer binnen 24 uur" data-en="Describe your job, I reply within 24 hours">Beschrijf je klus, ik reageer binnen 24 uur</span> <svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></a>
         </div>
         <ul class="check-list">
-          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Heldere afspraken vooraf: scope, deadline, prijs</li>
-          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Tussentijdse demo's — je ziet wat je krijgt</li>
-          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Nette oplevering: gedocumenteerde code in git</li>
-          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Klein starten kan: eerste klus als proef</li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg><span data-nl="Heldere afspraken vooraf: scope, deadline, prijs" data-en="Clear agreements up front: scope, deadline, price">Heldere afspraken vooraf: scope, deadline, prijs</span></li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg><span data-nl="Tussentijdse demo's — je ziet wat je krijgt" data-en="Interim demos — you see what you get">Tussentijdse demo's — je ziet wat je krijgt</span></li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg><span data-nl="Nette oplevering: gedocumenteerde code in git" data-en="Clean delivery: documented code in git">Nette oplevering: gedocumenteerde code in git</span></li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg><span data-nl="Klein starten kan: eerste klus als proef" data-en="Starting small is fine: first job as a trial">Klein starten kan: eerste klus als proef</span></li>
         </ul>
       </div>
 
       <div class="inzet-panel">
         <div>
-          <h3>Zelfstandig, transparant, aantoonbaar.</h3>
-          <p class="pitch">Ik werk dagelijks zelfstandig met git, duidelijke commits en korte updates — remote werken is mijn natuurlijke habitat. <strong>Mijn AI-native workflow maakt mijn output zichtbaar en meetbaar</strong>: jij ziet voortgang, geen beloftes.</p>
-          <a class="mini-cta" href="mailto:goedemiddag300@gmail.com">Vraag naar mijn werkwijze <svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></a>
+          <h3 data-nl="Zelfstandig, transparant, aantoonbaar." data-en="Independent, transparent, verifiable.">Zelfstandig, transparant, aantoonbaar.</h3>
+          <p class="pitch" data-nl="Ik werk dagelijks zelfstandig met git, duidelijke commits en korte updates — remote werken is mijn natuurlijke habitat. Mijn AI-native workflow maakt mijn output zichtbaar en meetbaar: jij ziet voortgang, geen beloftes." data-en="I work independently every day with git, clear commits and short updates — remote work is my natural habitat. My AI-native workflow makes my output visible and measurable: you see progress, not promises.">Ik werk dagelijks zelfstandig met git, duidelijke commits en korte updates — remote werken is mijn natuurlijke habitat. Mijn AI-native workflow maakt mijn output zichtbaar en meetbaar: jij ziet voortgang, geen beloftes.</p>
+          <a class="mini-cta" href="mailto:goedemiddag300@gmail.com"><span data-nl="Vraag naar mijn werkwijze" data-en="Ask about how I work">Vraag naar mijn werkwijze</span> <svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></a>
         </div>
         <ul class="check-list">
-          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Gewend aan async communicatie en zelf plannen</li>
-          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Dagelijkse voortgang via git en korte standups</li>
-          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Eigen ingerichte workspace — geen opstarttijd</li>
-          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Bereikbaar binnen kantoortijden, en flexibel daarbuiten</li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg><span data-nl="Gewend aan async communicatie en zelf plannen" data-en="Used to async communication and self-planning">Gewend aan async communicatie en zelf plannen</span></li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg><span data-nl="Dagelijkse voortgang via git en korte standups" data-en="Daily progress via git and short standups">Dagelijkse voortgang via git en korte standups</span></li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg><span data-nl="Eigen ingerichte workspace — geen opstarttijd" data-en="Own set-up workspace — no ramp-up time">Eigen ingerichte workspace — geen opstarttijd</span></li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg><span data-nl="Bereikbaar binnen kantoortijden, flexibel daarbuiten" data-en="Reachable during office hours, flexible beyond">Bereikbaar binnen kantoortijden, flexibel daarbuiten</span></li>
         </ul>
       </div>
 
       <div class="inzet-panel">
         <div>
-          <h3>Energie en leergierigheid in je team.</h3>
-          <p class="pitch">Regio Nijmegen en omstreken. Ik ben de junior die vragen stelt, mee-reviewt, pair-programt en elke sprint beter wordt. <strong>De junior die je over twee jaar niet kwijt wil</strong> — en die intussen je team leert hoe je AI-tooling productief inzet.</p>
-          <a class="mini-cta" href="mailto:goedemiddag300@gmail.com">Nodig me uit voor een gesprek <svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></a>
+          <h3 data-nl="Energie en leergierigheid in je team." data-en="Energy and curiosity in your team.">Energie en leergierigheid in je team.</h3>
+          <p class="pitch" data-nl="Regio Nijmegen en omstreken. Ik ben de junior die vragen stelt, mee-reviewt, pair-programt en elke sprint beter wordt. De junior die je over twee jaar niet kwijt wil — en die intussen je team leert hoe je AI-tooling productief inzet." data-en="Nijmegen region and surroundings. I'm the junior who asks questions, joins reviews, pair-programs and gets better every sprint. The junior you won't want to lose in two years — and who meanwhile teaches your team how to use AI tooling productively.">Regio Nijmegen en omstreken. Ik ben de junior die vragen stelt, mee-reviewt, pair-programt en elke sprint beter wordt. De junior die je over twee jaar niet kwijt wil — en die intussen je team leert hoe je AI-tooling productief inzet.</p>
+          <a class="mini-cta" href="mailto:goedemiddag300@gmail.com"><span data-nl="Nodig me uit voor een gesprek" data-en="Invite me for a conversation">Nodig me uit voor een gesprek</span> <svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></a>
         </div>
         <ul class="check-list">
-          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Leert snel: bewezen met curriculum + eigen projecten</li>
-          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Staat open voor feedback en code reviews</li>
-          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Brengt AI-kennis mee die je team direct kan gebruiken</li>
-          <li><svg class="ico ico-s"><use href="#i-check"/></svg>Ook inzetbaar op legacy-systemen (PxPlus/ProvideX)</li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg><span data-nl="Leert snel: bewezen met curriculum + eigen projecten" data-en="Learns fast: proven with curriculum + own projects">Leert snel: bewezen met curriculum + eigen projecten</span></li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg><span data-nl="Staat open voor feedback en code reviews" data-en="Open to feedback and code reviews">Staat open voor feedback en code reviews</span></li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg><span data-nl="Brengt AI-kennis mee die je team direct kan gebruiken" data-en="Brings AI knowledge your team can use right away">Brengt AI-kennis mee die je team direct kan gebruiken</span></li>
+          <li><svg class="ico ico-s"><use href="#i-check"/></svg><span data-nl="Ook inzetbaar op legacy-systemen (PxPlus/ProvideX)" data-en="Also deployable on legacy systems (PxPlus/ProvideX)">Ook inzetbaar op legacy-systemen (PxPlus/ProvideX)</span></li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- ============ WAAROM MIJ ============ -->
-  <section id="waarom">
+  <!-- ============ HOOFDSTUK 04 — DE WERKWIJZE ============ -->
+  <section id="werkwijze" data-scene="3">
     <div class="sec-head reveal">
-      <span class="eyebrow"><span class="dot"></span>Het verkooppraatje</span>
-      <h2>Waarom je mij wil.</h2>
-      <p>Eerlijk: ik ben junior. Maar ik ben het soort junior dat je over twee jaar niet meer kunt betalen.</p>
+      <span class="eyebrow"><span class="dot"></span><span data-nl="Hoofdstuk 04 — De werkwijze" data-en="Chapter 04 — The method">Hoofdstuk 04 — De werkwijze</span></span>
+      <h2 data-nl="Hoe ik werk: scherper denken, sneller leveren." data-en="How I work: think sharper, deliver faster.">Hoe ik werk: scherper denken, sneller leveren.</h2>
+      <p data-nl="De developer van vandaag typt niet sneller. Hij denkt beter, controleert scherper en levert vaker. Bij de kampvuur-gloed van een terminal komt het werk samen." data-en="Today's developer doesn't type faster. They think better, verify sharper and ship more often. By the campfire glow of a terminal, the work comes together.">De developer van vandaag typt niet sneller. Hij denkt beter, controleert scherper en levert vaker. Bij de kampvuur-gloed van een terminal komt het werk samen.</p>
     </div>
     <div class="pitch-grid">
       <div class="shell reveal"><div class="core">
         <span class="ico-box c-purple"><svg class="ico"><use href="#i-venn"/></svg></span>
-        <h3>De zeldzame combinatie</h3>
-        <p>Duizenden bedrijven draaien op PxPlus/ProvideX — en de developers die het beheersen gaan met pensioen. Ik ben een van de weinige jonge ontwikkelaars die deze legacy-stack leert én moderne Python ernaast zet. Precies de brug die deze systemen nodig hebben.</p>
+        <h3 data-nl="De zeldzame combinatie" data-en="The rare combination">De zeldzame combinatie</h3>
+        <p data-nl="Jonge ontwikkelaar die zowel legacy PxPlus als moderne Python beheerst. Precies de brug die bedrijfssystemen nodig hebben voordat de kennis met pensioen gaat." data-en="Young developer who handles both legacy PxPlus and modern Python. Exactly the bridge business systems need before the knowledge retires.">Jonge ontwikkelaar die zowel legacy PxPlus als moderne Python beheerst. Precies de brug die bedrijfssystemen nodig hebben voordat de kennis met pensioen gaat.</p>
       </div></div>
       <div class="shell reveal"><div class="core">
         <span class="ico-box c-green"><svg class="ico"><use href="#i-bolt"/></svg></span>
-        <h3>Bewezen leersnelheid</h3>
-        <p>In korte tijd: een compleet 11-delig PxPlus-curriculum doorgewerkt én toegepast in een werkende applicatie, plus Python van basics tot REST API's. Ik leer niet door te kijken — ik leer door te bouwen, te breken en te fixen.</p>
+        <h3 data-nl="Bewezen leersnelheid" data-en="Proven learning speed">Bewezen leersnelheid</h3>
+        <p data-nl="Een compleet 11-delig PxPlus-curriculum doorgewerkt én toegepast in een werkende app, plus Python van basics tot REST API's. Ik leer door te bouwen, te breken en te fixen." data-en="Worked through a complete 11-part PxPlus curriculum and applied it in a working app, plus Python from basics to REST APIs. I learn by building, breaking and fixing.">Een compleet 11-delig PxPlus-curriculum doorgewerkt én toegepast in een werkende app, plus Python van basics tot REST API's. Ik leer door te bouwen, te breken en te fixen.</p>
       </div></div>
       <div class="shell reveal"><div class="core">
         <span class="ico-box c-claude"><svg class="ico"><use href="#i-sparkle"/></svg></span>
-        <h3>De AI-multiplier</h3>
-        <p>Ik werk AI-native met Claude: documentatie-first, sneller debuggen, hogere code-kwaliteit. Niet als vervanging van begrip, maar als versneller erop. Een junior met AI-discipline levert vandaag wat vroeger een medior kostte.</p>
+        <h3 data-nl="De AI-multiplier" data-en="The AI multiplier">De AI-multiplier</h3>
+        <p data-nl="AI-native werken: documentatie-first, sneller debuggen, hogere code-kwaliteit. Niet als vervanging van begrip, maar als versneller erop. Een junior met AI-discipline levert vandaag wat vroeger een medior kostte." data-en="Working AI-native: documentation-first, faster debugging, higher code quality. Not a replacement for understanding, but an accelerator on top. A junior with AI discipline delivers today what used to cost a mid-level.">AI-native werken: documentatie-first, sneller debuggen, hogere code-kwaliteit. Niet als vervanging van begrip, maar als versneller erop. Een junior met AI-discipline levert vandaag wat vroeger een medior kostte.</p>
       </div></div>
     </div>
   </section>
 
-  <!-- ============ TRAJECT ============ -->
+  <!-- ============ TRAJECT (timeline) ============ -->
   <section id="traject">
     <div class="sec-head reveal">
-      <span class="eyebrow"><span class="dot"></span>Mijn route</span>
-      <h2>Van eerste script tot AI-native.</h2>
+      <span class="eyebrow"><span class="dot"></span><span data-nl="Mijn route" data-en="My route">Mijn route</span></span>
+      <h2 data-nl="Van eerste script tot AI-native." data-en="From first script to AI-native.">Van eerste script tot AI-native.</h2>
     </div>
     <div class="tl">
-      <div class="tl-item reveal"><span class="tl-tag">Fundament</span><h3>Python-basis</h3><p>Variabelen tot OOP en exception handling. Alles openbaar op GitHub — groei mag zichtbaar zijn.</p></div>
-      <div class="tl-item reveal"><span class="tl-tag">Echte data</span><h3>API's & databases</h3><p>Live BTC-tracker op de Coinbase API, JSON-logging, en FitCore: een FastAPI REST API met PostgreSQL.</p></div>
-      <div class="tl-item reveal"><span class="tl-tag">Legacy-vakwerk</span><h3>PxPlus-curriculum (11 lessen)</h3><p>Professionele Business Basic-opleiding: keyed files, NOMADS-GUI's, OOP, grids, printing. De stack waar bedrijfssoftware écht op draait.</p></div>
-      <div class="tl-item reveal"><span class="tl-tag">Compleet product</span><h3>Deathstar-applicatie</h3><p>Alle lessen samengebracht in één werkende app: CRUD, master/detail, OOP-datalaag, security-hardening, exports en printen.</p></div>
-      <div class="tl-item reveal"><span class="tl-tag">Workflow</span><h3>AI-native werken</h3><p>Claude Code als dagelijkse co-piloot: documentatie-first, geverifieerde keuzes, hogere kwaliteit per uur.</p></div>
-      <div class="tl-item now reveal"><span class="tl-tag">Volgende stap</span><h3>Jouw team?</h3><p>Freelance-klus, remote rol of een bureau op kantoor in Nijmegen e.o. — ik ben er klaar voor.</p></div>
+      <div class="tl-item reveal"><span class="tl-tag" data-nl="Fundament" data-en="Foundation">Fundament</span><h3 data-nl="Python-basis" data-en="Python basics">Python-basis</h3><p data-nl="Variabelen tot OOP en exception handling. Alles openbaar op GitHub — groei mag zichtbaar zijn." data-en="Variables to OOP and exception handling. All public on GitHub — growth is allowed to show.">Variabelen tot OOP en exception handling. Alles openbaar op GitHub — groei mag zichtbaar zijn.</p></div>
+      <div class="tl-item reveal"><span class="tl-tag" data-nl="Echte data" data-en="Real data">Echte data</span><h3 data-nl="API's & databases" data-en="APIs & databases">API's &amp; databases</h3><p data-nl="Live BTC-tracker op de Coinbase API, JSON-logging, en FitCore: een FastAPI REST API met PostgreSQL." data-en="Live BTC tracker on the Coinbase API, JSON logging, and FitCore: a FastAPI REST API with PostgreSQL.">Live BTC-tracker op de Coinbase API, JSON-logging, en FitCore: een FastAPI REST API met PostgreSQL.</p></div>
+      <div class="tl-item reveal"><span class="tl-tag" data-nl="Legacy-vakwerk" data-en="Legacy craft">Legacy-vakwerk</span><h3 data-nl="PxPlus-curriculum (11 lessen)" data-en="PxPlus curriculum (11 lessons)">PxPlus-curriculum (11 lessen)</h3><p data-nl="Professionele Business Basic-opleiding: keyed files, NOMADS-GUI's, OOP, grids, printing. De stack waar bedrijfssoftware écht op draait." data-en="Professional Business Basic training: keyed files, NOMADS GUIs, OOP, grids, printing. The stack business software actually runs on.">Professionele Business Basic-opleiding: keyed files, NOMADS-GUI's, OOP, grids, printing. De stack waar bedrijfssoftware écht op draait.</p></div>
+      <div class="tl-item reveal"><span class="tl-tag" data-nl="Compleet product" data-en="Complete product">Compleet product</span><h3 data-nl="Deathstar-applicatie" data-en="Deathstar application">Deathstar-applicatie</h3><p data-nl="Alle lessen samengebracht in één werkende app: CRUD, master/detail, OOP-datalaag, security-hardening, exports en printen." data-en="All lessons brought together in one working app: CRUD, master/detail, OOP data layer, security hardening, exports and printing.">Alle lessen samengebracht in één werkende app: CRUD, master/detail, OOP-datalaag, security-hardening, exports en printen.</p></div>
+      <div class="tl-item now reveal"><span class="tl-tag" data-nl="Volgende stap" data-en="Next step">Volgende stap</span><h3 data-nl="Jouw team?" data-en="Your team?">Jouw team?</h3><p data-nl="Freelance-klus, remote rol of een bureau op kantoor in Nijmegen e.o. — ik ben er klaar voor." data-en="Freelance job, remote role or a desk on-site in the Nijmegen area — I'm ready.">Freelance-klus, remote rol of een bureau op kantoor in Nijmegen e.o. — ik ben er klaar voor.</p></div>
     </div>
   </section>
 
-  <!-- ============ GEBOUWD MET CLAUDE ============ -->
-  <section id="claude" class="claude-sec">
-    <div class="shell reveal"><div class="core">
-      <div class="claude-grid">
-        <div>
-          <span class="eyebrow"><svg class="ico ico-s c-claude"><use href="#i-sparkle"/></svg>Gebouwd met Claude</span>
-          <h2>Deze hele site? Met Claude gebouwd. <span>Bewust.</span></h2>
-          <p>Dit portfolio is geen verstopte AI-output — het is een demonstratie. Zo werk ik: ik stuur de AI aan met duidelijke eisen, controleer elke aanname tegen documentatie, en lever het resultaat sneller op dan traditioneel mogelijk is.</p>
-          <p>De developer van de toekomst typt niet sneller. Hij <strong>denkt</strong> beter, <strong>controleert</strong> scherper en <strong>levert</strong> vaker.</p>
-        </div>
-        <ul class="claude-points">
-          <li>Documentatie-first: elke technische keuze geverifieerd tegen de officiële bron</li>
-          <li>AI als pair-programmer bij debuggen, reviews en security-checks</li>
-          <li>Zelf de architectuur en eisen bepalen — AI voert mee uit</li>
-          <li>Deze site: zero externe afhankelijkheden, strikte CSP, zelf-gehoste fonts</li>
-        </ul>
-      </div>
-    </div></div>
-  </section>
-
-  <!-- ============ DIENSTEN ============ -->
-  <section id="diensten">
-    <div class="sec-head reveal">
-      <span class="eyebrow"><span class="dot"></span>Concreet</span>
-      <h2>Wat ik voor je kan doen.</h2>
-    </div>
-    <div class="diensten reveal">
-      <div class="dienst">
-        <span class="nr">01</span>
-        <div><h3>Legacy-systemen onderhouden & uitbouwen</h3><p>PxPlus/ProvideX-applicaties begrijpen, debuggen, beveiligen en uitbreiden — inclusief NOMADS-panels, keyed files en datamodellen.</p></div>
-        <svg class="ico"><use href="#i-terminal"/></svg>
-      </div>
-      <div class="dienst">
-        <span class="nr">02</span>
-        <div><h3>Interne tools & automatisering bouwen</h3><p>Repetitief werk weg-automatiseren met Python: bots, scripts, API-koppelingen, data-exports. Klein bouwen, snel opleveren.</p></div>
-        <svg class="ico"><use href="#i-gear"/></svg>
-      </div>
-      <div class="dienst">
-        <span class="nr">03</span>
-        <div><h3>API's & data-koppelingen</h3><p>REST API's opzetten met FastAPI, databases modelleren, externe services koppelen (Google, betaaldata, crypto-feeds).</p></div>
-        <svg class="ico"><use href="#i-link"/></svg>
-      </div>
-      <div class="dienst">
-        <span class="nr">04</span>
-        <div><h3>AI-workflows in je team brengen</h3><p>Ik weet uit dagelijkse praktijk hoe je AI-tooling veilig en productief inzet bij development — en kan dat overdragen aan je team.</p></div>
-        <svg class="ico"><use href="#i-sparkle"/></svg>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ CONTACT ============ -->
-  <section id="contact" class="contact">
-    <span class="eyebrow reveal"><span class="dot"></span>Laten we praten</span>
-    <h2 class="reveal">Zoek je een junior die <span class="grad">levert</span>?</h2>
-    <p class="reveal">Freelance klus, remote rol of op kantoor in Nijmegen e.o. — één gesprek en je weet of het klikt.</p>
+  <!-- ============ HOOFDSTUK 05 — DE TOP (CONTACT) ============ -->
+  <section id="contact" class="contact" data-scene="4">
+    <span class="eyebrow reveal"><span class="dot"></span><span data-nl="Hoofdstuk 05 — De top" data-en="Chapter 05 — The summit">Hoofdstuk 05 — De top</span></span>
+    <h2 class="reveal" data-nl="Zoek je een junior die levert?" data-en="Looking for a junior who delivers?" data-grad="1">Zoek je een junior die levert?</h2>
+    <p class="reveal" data-nl="Freelance klus, remote rol of op kantoor in Nijmegen e.o. — één gesprek en je weet of het klikt." data-en="Freelance job, remote role or on-site in the Nijmegen area — one conversation and you'll know if it clicks.">Freelance klus, remote rol of op kantoor in Nijmegen e.o. — één gesprek en je weet of het klikt.</p>
     <div class="cta-row reveal">
-      <a class="btn btn-primary" href="https://www.linkedin.com/in/eren-yilmaz-04b7463a6" target="_blank" rel="noopener noreferrer">Connect op LinkedIn <span class="pill-ico"><svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></span></a>
-      <a class="btn btn-ghost" href="mailto:goedemiddag300@gmail.com">Stuur een mail <span class="pill-ico"><svg class="ico ico-s"><use href="#i-mail"/></svg></span></a>
+      <a class="btn btn-primary" href="https://www.linkedin.com/in/eren-yilmaz-04b7463a6" target="_blank" rel="noopener noreferrer"><span data-nl="Connect op LinkedIn" data-en="Connect on LinkedIn">Connect op LinkedIn</span> <span class="pill-ico"><svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></span></a>
+      <a class="btn btn-ghost" href="mailto:goedemiddag300@gmail.com"><span data-nl="Stuur een mail" data-en="Send an email">Stuur een mail</span> <span class="pill-ico"><svg class="ico ico-s"><use href="#i-mail"/></svg></span></a>
       <a class="btn btn-ghost" href="https://github.com/killanova" target="_blank" rel="noopener noreferrer">GitHub <span class="pill-ico"><svg class="ico ico-s"><use href="#i-arrow-ur"/></svg></span></a>
     </div>
-    <small class="reveal">Reactie binnen 24 uur — meestal sneller.</small>
+    <small class="reveal" data-nl="Reactie binnen 24 uur — meestal sneller." data-en="Reply within 24 hours — usually sooner.">Reactie binnen 24 uur — meestal sneller.</small>
   </section>
 
 </main>
 
 <footer>
   <div class="wm" aria-hidden="true">EREN YILMAZ</div>
-  <div class="foot-line">© <span id="jaar"></span> Eren Yilmaz · Nijmegen · <b>✦ Gebouwd met Claude</b></div>
+  <div class="foot-line">© <span id="jaar"></span> Eren Yilmaz · Nijmegen · <span class="foot-credit" data-nl="een scrollende korte film · gebouwd met Claude" data-en="a scrolling short film · built with Claude">een scrollende korte film · gebouwd met Claude</span></div>
 </footer>
 
 </body>
