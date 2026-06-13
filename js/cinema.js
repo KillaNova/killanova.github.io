@@ -47,7 +47,7 @@ function resize() {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   horizonY = H * 0.72;
-  charH = clamp(H * 0.2, 124, 196);
+  charH = clamp(H * 0.235, 150, 215);
   charX = W * (W < 720 ? 0.5 : 0.34);
 
   // sterren (genormaliseerd, schaalt mee)
@@ -128,7 +128,7 @@ function drawSun(p) {
   const k = clamp(p / span, 0, 1);
   const x = W * (0.14 + 0.74 * k);
   const y = horizonY - Math.sin(k * Math.PI) * (H * 0.52) - 6;
-  const a = smooth(0, 0.02, p) * (1 - smooth(0.62, span, p));
+  const a = smooth(0, 0.02, p) * (1 - smooth(0.54, 0.64, p));   // volledig weg bij schemering (geen restgloed)
   if (a <= 0.001) return { x, y };
   const warm = p < 0.33 ? [255, 168, 96] : p < 0.55 ? [255, 226, 168] : [255, 150, 78];
   const R = lerp(54, 40, Math.sin(k * Math.PI));
@@ -226,14 +226,59 @@ function drawRidges(p, sky, light) {
    HET PERSONAGE — gestileerde silhouet-Eren met laptop
    Houding mengt tussen: lopen (φ-cyclus) · zitten/typen · uitkijken
    ============================================================ */
-function pt(base, len, ang) { return { x: base.x + Math.sin(ang) * len, y: base.y + Math.cos(ang) * len }; }
+function up(b, len, a) { return { x: b.x + Math.sin(a) * len, y: b.y - Math.cos(a) * len }; }   // omhoog, +a = naar voren
+function dn(b, len, a) { return { x: b.x + Math.sin(a) * len, y: b.y + Math.cos(a) * len }; }   // omlaag, +a = naar voren
+function vmix(A, B, C, wa, wb, wc) { return { x: A.x * wa + B.x * wb + C.x * wc, y: A.y * wa + B.y * wb + C.y * wc }; }
 
 function poseWeights(p) {
   const sit = smooth(0.6, 0.67, p) * (1 - smooth(0.78, 0.85, p));   // hoofdstuk 04
   const stand = smooth(0.9, 0.97, p);                               // de top
-  let walk = clamp(1 - sit - stand, 0, 1);
+  const walk = clamp(1 - sit - stand, 0, 1);
   const s = walk + sit + stand || 1;
   return { walk: walk / s, sit: sit / s, stand: stand / s };
+}
+
+/* drie hand-gemaakte houdingen — elk een complete set gewrichtspunten.
+   Door tussen complete (correcte) houdingen te interpoleren kan niets "knopen". */
+function poseWalk(cx, S, gY, a, ph) {
+  const hip = { x: cx, y: gY - 0.47 * S - Math.sin(ph * 2) * 0.02 * S * a };
+  const lean = 0.06 + 0.09 * a;   // rechtop als hij stilstaat, voorover als hij loopt
+  const neck = up(hip, 0.36 * S, lean), sh = up(hip, 0.30 * S, lean);
+  const headC = up(neck, 0.085 * S, lean * 0.6 + 0.05);
+  const thF = a * 0.55 * Math.sin(ph), thB = a * 0.55 * Math.sin(ph + Math.PI);
+  const flF = 0.12 + a * 0.9 * clamp(0.3 - Math.sin(ph), 0, 1.4);
+  const flB = 0.12 + a * 0.9 * clamp(0.3 - Math.sin(ph + Math.PI), 0, 1.4);
+  const kneeF = dn(hip, 0.25 * S, thF), ankF = dn(kneeF, 0.26 * S, thF - flF), toeF = dn(ankF, 0.11 * S, thF - flF + 1.45);
+  const kneeB = dn(hip, 0.25 * S, thB), ankB = dn(kneeB, 0.26 * S, thB - flB), toeB = dn(ankB, 0.11 * S, thB - flB + 1.45);
+  const sw = a * 0.7 * Math.sin(ph + Math.PI);
+  const elbowB = dn(sh, 0.20 * S, sw * 0.7), handB = dn(elbowB, 0.19 * S, sw * 0.9);
+  const elbowF = dn(sh, 0.20 * S, 0.42), handF = dn(elbowF, 0.19 * S, 1.2);                 // voorarm draagt de laptop
+  const lap = { x: (elbowF.x + handF.x) / 2 + 0.05 * S, y: (elbowF.y + handF.y) / 2 - 0.06 * S };
+  return { hip, neck, sh, headC, kneeF, ankF, toeF, kneeB, ankB, toeB, elbowF, handF, elbowB, handB, lap, lapAngle: -0.35, lapGlow: 0.42 };
+}
+function poseStand(cx, S, gY, time) {
+  const hip = { x: cx, y: gY - 0.49 * S - Math.sin(time * 1.4) * 0.008 * S };
+  const lean = -0.02;
+  const neck = up(hip, 0.36 * S, lean), sh = up(hip, 0.30 * S, lean);
+  const headC = up(neck, 0.085 * S, -0.05);
+  const kneeF = dn(hip, 0.25 * S, 0.05), ankF = dn(kneeF, 0.26 * S, 0.02), toeF = dn(ankF, 0.11 * S, 1.45);
+  const kneeB = dn(hip, 0.25 * S, -0.05), ankB = dn(kneeB, 0.26 * S, -0.02), toeB = dn(ankB, 0.11 * S, 1.35);
+  const elbowB = dn(sh, 0.20 * S, -0.12), handB = dn(elbowB, 0.19 * S, -0.16);               // arm ontspannen, licht naar achter
+  const elbowF = dn(sh, 0.20 * S, 0.18), handF = dn(elbowF, 0.19 * S, 0.5);                   // laptop ontspannen aan de zij
+  const lap = { x: handF.x + 0.05 * S, y: handF.y - 0.02 * S };
+  return { hip, neck, sh, headC, kneeF, ankF, toeF, kneeB, ankB, toeB, elbowF, handF, elbowB, handB, lap, lapAngle: -0.16, lapGlow: 0.34 };
+}
+function poseSit(cx, S, gY) {
+  const hip = { x: cx, y: gY - 0.13 * S };                                                  // laag bij de grond
+  const lean = 0.24;
+  const neck = up(hip, 0.34 * S, lean), sh = up(hip, 0.28 * S, lean);
+  const headC = up(neck, 0.085 * S, lean * 0.5 + 0.4);                                       // hoofd gebogen naar het scherm
+  const kneeF = dn(hip, 0.25 * S, 1.2), ankF = dn(kneeF, 0.26 * S, -0.02), toeF = dn(ankF, 0.11 * S, 1.3);
+  const kneeB = dn(hip, 0.25 * S, 1.05), ankB = dn(kneeB, 0.26 * S, 0.12), toeB = dn(ankB, 0.11 * S, 1.3);
+  const elbowF = dn(sh, 0.20 * S, 0.78), handF = dn(elbowF, 0.19 * S, 1.12);                 // beide armen naar het toetsenbord
+  const elbowB = dn(sh, 0.20 * S, 0.64), handB = dn(elbowB, 0.19 * S, 1.05);
+  const lap = { x: cx + 0.22 * S, y: hip.y - 0.02 * S };
+  return { hip, neck, sh, headC, kneeF, ankF, toeF, kneeB, ankB, toeB, elbowF, handF, elbowB, handB, lap, lapAngle: -0.42, lapGlow: 1 };
 }
 
 function strokeChain(points, width, style, glow) {
@@ -248,136 +293,84 @@ function strokeChain(points, width, style, glow) {
 
 function drawCharacter(p, time, light, rimCol) {
   const w = poseWeights(p);
-  const S = charH;
-  const gY = groundTopY(charX, p);
+  const S = charH, gY = groundTopY(charX, p);
+  const A = poseWalk(charX, S, gY, walkAmp, walkPhase);
+  const B = poseStand(charX, S, gY, time);
+  const C = poseSit(charX, S, gY);
+  const ww = w.walk, ws = w.stand, wi = w.sit;
+  const P = {};
+  ['hip', 'neck', 'sh', 'headC', 'kneeF', 'ankF', 'toeF', 'kneeB', 'ankB', 'toeB', 'elbowF', 'handF', 'elbowB', 'handB', 'lap']
+    .forEach(k => P[k] = vmix(A[k], B[k], C[k], ww, ws, wi));
+  const lapAngle = A.lapAngle * ww + B.lapAngle * ws + C.lapAngle * wi;
+  const lapGlow = A.lapGlow * ww + B.lapGlow * ws + C.lapGlow * wi;
 
-  // bewegende cyclus
-  const a = walkAmp;
-  const ph = walkPhase;
-  const bob = Math.sin(ph * 2) * 0.018 * S * a + Math.sin(time * 1.4) * 0.006 * S * (w.stand + (1 - a) * w.walk);
-
-  // pelvis-hoogte per houding
-  const pelvisY =
-      w.walk * (gY - S * 0.50) +
-      w.sit  * (gY - S * 0.17) +
-      w.stand * (gY - S * 0.52) + bob;
-  const pelvis = { x: charX, y: pelvisY };
-
-  // --- gewrichtshoeken per houding, daarna gemengd ---
-  // romp / hoofd
-  const torso = w.walk * (0.12 + 0.05 * a) + w.sit * 0.20 + w.stand * (-0.04);
-  const head  = w.walk * 0.04 + w.sit * 0.34 + w.stand * (-0.05);
-
-  // benen
-  const thN_w = a * 0.45 * Math.sin(ph),        thF_w = a * 0.45 * Math.sin(ph + Math.PI);
-  const knN_w = a * 0.55 * clamp(Math.sin(ph + 0.6) + 0.35, 0, 1.4);
-  const knF_w = a * 0.55 * clamp(Math.sin(ph + Math.PI + 0.6) + 0.35, 0, 1.4);
-  const thN = w.walk * thN_w + w.sit * 1.30 + w.stand * 0.03;
-  const thF = w.walk * thF_w + w.sit * 1.42 + w.stand * (-0.03);
-  const knN = w.walk * knN_w + w.sit * 1.15 + w.stand * 0.05;
-  const knF = w.walk * knF_w + w.sit * 1.05 + w.stand * 0.05;
-
-  // armen (near = voorste, draagt/typt; far = achterste, zwaait/kijkt)
-  const shN = w.walk * (0.55) + w.sit * 0.95 + w.stand * 0.30;
-  const elN = w.walk * (-1.35) + w.sit * (-1.15) + w.stand * (-0.20);
-  const shF = w.walk * (-a * 0.42 * Math.sin(ph)) + w.sit * 0.90 + w.stand * (-1.15);
-  const elF = w.walk * (-0.45) + w.sit * (-1.05) + w.stand * (-1.25);
-
-  // --- forward kinematics ---
-  const neck = pt(pelvis, S * 0.32, torso);
-  const headC = pt(neck, S * 0.12 + S * 0.075, head);
-  const shoulder = pt(neck, S * 0.05, torso + 0.2);
-
-  const kneeN = pt(pelvis, S * 0.23, thN);
-  const ankN = pt(kneeN, S * 0.24, thN - knN);
-  const footN = pt(ankN, S * 0.10, thN - knN + 1.3);
-  const kneeF = pt(pelvis, S * 0.23, thF);
-  const ankF = pt(kneeF, S * 0.24, thF - knF);
-  const footF = pt(ankF, S * 0.10, thF - knF + 1.3);
-
-  const elbowN = pt(shoulder, S * 0.20, shN);
-  const handN = pt(elbowN, S * 0.18, shN + elN);
-  const elbowF = pt(shoulder, S * 0.20, shF);
-  const handF = pt(elbowF, S * 0.18, shF + elF);
-
-  // laptop-ankerpunt (gedragen → op schoot → dicht aan de zij)
-  const carry = { x: pelvis.x + 0.16 * S, y: pelvis.y - 0.04 * S };
-  const lap   = { x: pelvis.x + 0.24 * S, y: pelvis.y + 0.10 * S };
-  const sidex = { x: pelvis.x + 0.17 * S, y: pelvis.y + 0.06 * S };
-  const lc = {
-    x: w.walk * carry.x + w.sit * lap.x + w.stand * sidex.x,
-    y: w.walk * carry.y + w.sit * lap.y + w.stand * sidex.y
-  };
-  const lapGlow = w.sit * 1 + (w.walk + w.stand) * 0.32;
-
-  const fill = rgb(mix(light, [3, 4, 10], 0.86));
-  const dim  = rgb(mix(light, [2, 3, 8], 0.92));
-  const lw = S * 0.075, lwTorso = S * 0.14;
-  const rim = { c: rimCol, b: S * 0.12 };
+  const fill = rgb(mix(light, [3, 4, 10], 0.84));
+  const dim = rgb(mix(light, [2, 3, 8], 0.9));
+  const legW = S * 0.078, armW = S * 0.062, torsoW = S * 0.135, headR = S * 0.088;
+  const rim = { c: rimCol, b: S * 0.1 };
 
   ctx.save();
   if (dir < 0) { ctx.translate(charX, 0); ctx.scale(-1, 1); ctx.translate(-charX, 0); }
 
-  // schaduw
-  const sa = (0.18 + 0.14 * smooth(0.2, 0.5, p)) * (1 - 0.5 * smooth(0.82, 1, p));
-  const sg = ctx.createRadialGradient(charX, gY + 4, 2, charX, gY + 4, S * 0.4);
-  sg.addColorStop(0, `rgba(0,0,0,${sa})`); sg.addColorStop(1, 'rgba(0,0,0,0)');
+  // schaduw op de grond
+  const sa = (0.16 + 0.16 * smooth(0.2, 0.5, p)) * (1 - 0.55 * smooth(0.82, 1, p));
+  const sg = ctx.createRadialGradient(charX, gY + 3, 2, charX, gY + 3, S * 0.42);
+  sg.addColorStop(0, `rgba(0,0,0,${sa.toFixed(3)})`); sg.addColorStop(1, 'rgba(0,0,0,0)');
   ctx.fillStyle = sg;
-  ctx.beginPath(); ctx.ellipse(charX, gY + 4, S * 0.4, S * 0.09, 0, 0, TAU); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(charX, gY + 3, S * 0.42, S * 0.085, 0, 0, TAU); ctx.fill();
 
   // achterste ledematen (dimmer → diepte)
-  strokeChain([pelvis, kneeF, ankF, footF], lw, dim);
-  strokeChain([shoulder, elbowF, handF], lw * 0.9, dim);
+  strokeChain([P.hip, P.kneeB, P.ankB, P.toeB], legW, dim);
+  strokeChain([P.sh, P.elbowB, P.handB], armW, dim);
 
-  // romp + hoofd
-  strokeChain([pelvis, neck], lwTorso, fill);
+  // romp, nek, hoofd
+  strokeChain([P.hip, P.neck], torsoW, fill);
+  strokeChain([P.neck, P.headC], armW * 0.9, fill);
   ctx.fillStyle = fill;
-  ctx.beginPath(); ctx.arc(headC.x, headC.y, S * 0.082, 0, TAU); ctx.fill();
+  ctx.beginPath(); ctx.arc(P.headC.x, P.headC.y, headR, 0, TAU); ctx.fill();
 
   // voorste ledematen
-  strokeChain([shoulder, elbowN, handN], lw * 0.95, fill);
-  strokeChain([pelvis, kneeN, ankN, footN], lw, fill);
+  strokeChain([P.hip, P.kneeF, P.ankF, P.toeF], legW, fill);
+  strokeChain([P.sh, P.elbowF, P.handF], armW, fill);
 
-  // rim-light (gloeiende contour aan de lichtzijde)
-  ctx.globalAlpha = 0.9;
-  strokeChain([pelvis, neck], lwTorso * 0.34, rgba(rimCol, 0.5), rim);
-  strokeChain([shoulder, elbowN, handN], lw * 0.4, rgba(rimCol, 0.45), rim);
-  strokeChain([pelvis, kneeN, ankN], lw * 0.4, rgba(rimCol, 0.4), rim);
-  ctx.beginPath(); ctx.arc(headC.x, headC.y, S * 0.082, 0, TAU);
-  ctx.lineWidth = lw * 0.3; ctx.strokeStyle = rgba(rimCol, 0.5);
-  ctx.shadowColor = rimCol; ctx.shadowBlur = S * 0.12; ctx.stroke(); ctx.shadowBlur = 0;
+  // de gloeiende laptop (vóór het lichaam)
+  drawLaptop(P.lap, lapGlow, S, lapAngle);
+
+  // rim-light: gloeiende contour zodat hij oplicht tegen donkere luchten
+  ctx.globalAlpha = 0.85;
+  strokeChain([P.hip, P.neck], torsoW * 0.3, rgba(rimCol, 0.5), rim);
+  strokeChain([P.sh, P.elbowF, P.handF], armW * 0.45, rgba(rimCol, 0.45), rim);
+  strokeChain([P.hip, P.kneeF, P.ankF], legW * 0.45, rgba(rimCol, 0.4), rim);
+  ctx.beginPath(); ctx.arc(P.headC.x, P.headC.y, headR, 0, TAU);
+  ctx.lineWidth = headR * 0.34; ctx.strokeStyle = rgba(rimCol, 0.55);
+  ctx.shadowColor = rimCol; ctx.shadowBlur = S * 0.1; ctx.stroke(); ctx.shadowBlur = 0;
   ctx.globalAlpha = 1;
-
-  // de gloeiende laptop
-  drawLaptop(lc, lapGlow, S);
 
   ctx.restore();
 }
 
-function drawLaptop(c, glow, S) {
-  const w = S * 0.26, h = S * 0.02, sh = S * 0.18;
-  // gloed-puddle (kampvuur-effect bij het typen)
-  if (glow > 0.05) {
-    const g = ctx.createRadialGradient(c.x, c.y - sh * 0.4, 2, c.x, c.y - sh * 0.4, S * (0.5 + glow));
-    g.addColorStop(0, `rgba(120,200,255,${(0.22 * glow).toFixed(3)})`);
-    g.addColorStop(0.5, `rgba(110,150,255,${(0.08 * glow).toFixed(3)})`);
-    g.addColorStop(1, 'rgba(110,150,255,0)');
+function drawLaptop(c, glow, S, angle) {
+  const w = S * 0.27, base = S * 0.022, sh = S * 0.18;
+  if (glow > 0.05) {   // kampvuur-gloed van het scherm
+    const r = S * (0.45 + glow * 0.9);
+    const g = ctx.createRadialGradient(c.x, c.y - sh * 0.4, 2, c.x, c.y - sh * 0.4, r);
+    g.addColorStop(0, `rgba(140,205,255,${(0.24 * glow).toFixed(3)})`);
+    g.addColorStop(0.5, `rgba(120,150,255,${(0.09 * glow).toFixed(3)})`);
+    g.addColorStop(1, 'rgba(120,150,255,0)');
     ctx.fillStyle = g;
-    ctx.beginPath(); ctx.arc(c.x, c.y - sh * 0.4, S * (0.5 + glow), 0, TAU); ctx.fill();
+    ctx.beginPath(); ctx.arc(c.x, c.y - sh * 0.4, r, 0, TAU); ctx.fill();
   }
   ctx.save();
   ctx.translate(c.x, c.y);
-  // onderkant
   ctx.fillStyle = '#0b0d14';
-  ctx.beginPath(); ctx.rect(-w / 2, 0, w, h); ctx.fill();
-  // scherm (omhoog gekanteld)
-  ctx.rotate(-0.32);
+  ctx.beginPath(); ctx.rect(-w / 2, 0, w, base); ctx.fill();             // onderkant
+  ctx.rotate(angle);
   ctx.fillStyle = '#0a0c12';
-  ctx.beginPath(); ctx.rect(-w / 2, -sh, w, sh); ctx.fill();
-  // schermgloed
+  ctx.beginPath(); ctx.rect(-w / 2, -sh, w, sh); ctx.fill();             // scherm
+  const gv = Math.max(glow, 0.45);
   const sg = ctx.createLinearGradient(0, -sh, 0, 0);
-  sg.addColorStop(0, `rgba(150,210,255,${(0.85 * Math.max(glow, 0.4)).toFixed(3)})`);
-  sg.addColorStop(1, `rgba(90,150,255,${(0.45 * Math.max(glow, 0.4)).toFixed(3)})`);
+  sg.addColorStop(0, `rgba(160,215,255,${(0.9 * gv).toFixed(3)})`);
+  sg.addColorStop(1, `rgba(95,150,255,${(0.5 * gv).toFixed(3)})`);
   ctx.fillStyle = sg;
   ctx.beginPath(); ctx.rect(-w / 2 + 2, -sh + 2, w - 4, sh - 4); ctx.fill();
   ctx.restore();

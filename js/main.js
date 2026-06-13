@@ -50,16 +50,7 @@ function applyLang(lang) {
   initType();
 }
 
-let saved = 'nl';
-try { saved = localStorage.getItem('ey-lang') || 'nl'; } catch (e) {}
-applyLang(saved);
-document.body.classList.add('loaded');           // trigger hero-stagger
-
-if (langBtn) langBtn.addEventListener('click', () => applyLang(LANG === 'en' ? 'nl' : 'en'));
-
-/* ============================================================
-   typewriter (taal-afhankelijk, herstart bij taalwissel)
-   ============================================================ */
+/* ---------- typewriter (taal-afhankelijk, herstart bij taalwissel) ---------- */
 const ROLES = {
   nl: ['Python-developer', 'PxPlus / legacy-developer', 'API- & automatiseringsbouwer', 'AI-native developer'],
   en: ['Python developer', 'PxPlus / legacy developer', 'API & automation builder', 'AI-native developer']
@@ -90,6 +81,13 @@ function initType() {
   };
   setTimeout(stap, 700);
 }
+
+let saved = 'nl';
+try { saved = localStorage.getItem('ey-lang') || 'nl'; } catch (e) {}
+applyLang(saved);
+document.body.classList.add('loaded');           // trigger hero-stagger
+
+if (langBtn) langBtn.addEventListener('click', () => applyLang(LANG === 'en' ? 'nl' : 'en'));
 
 /* ============================================================
    scroll-reveal + count-up + seg-switcher (IntersectionObserver)
